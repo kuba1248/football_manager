@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/products.css">
+</head>
+<body>
+{% now "Y-m-d-H-i-s" as todays_date %}
+<div class="container-fluid">
+    <div id="myCarousel" class="carousel slide" data-interval="false">
+    {% load custom_tags %}
+
+<!-- Pagination -->
+<nav>
+  <ul class="pagination justify-content-center">
+      <li class="page-item {% if not auctions.has_previous %} disabled {% endif %}">
+          <a class="page-link" href="{% if auctions.has_previous %} {% url 'website:index2' auctions.previous_page_number %}{% endif %} ">Previous</a>
+      </li>
+
+      {% if auctions.number|add:'-1' > 1 %}
+          <li class="page-item disabled"><a class="page-link">&hellip;</a></li>
+      {% endif %}
+
+      {% for i in auctions.paginator.page_range %}
+          {% if auctions.number == i %}
+              <li class="active page-item disabled"><a class="page-link" href="#">{{ i }}</a></li>
+          {% elif i > auctions.number|add:'-2' and i < auctions.number|add:'2' %}
+              <li class="page-item"><a class="page-link" href="{% url 'website:index2' i %}">{{ i }}</a></li>
+          {% endif %}
+      {% endfor %}
+
+      {% if auctions.paginator.num_pages > auctions.number|add:'1' %}
+          <li class="page-item disabled"><a class="page-link" href="#">&hellip;</a></li>
+      {% endif %}
+
+      <li class="page-item {% if not auctions.has_next %} disabled {% endif %}">
+          <a class="page-link" href="{% if auctions.has_next %} {% url 'website:index2' auctions.next_page_number %} {% endif %}">Next</a>
+      </li>
+  </ul>
+</nav>
+<!-- END Pagination -->
+
+        <div class='responsive-table'>
+
+
+            <table class = 'highlight '>
+            <thead>
+            <tr>
+                <th>index</th>
+                <th>title</th>
+                <th>description</th>
+                <th>Current Price</th>
+                <th>Auction time</th>
+                <th>Bid</th>
+                <th>Watch</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% load custom_tags %}
+            {% for auction in auctions %}
+                <tr>
+
+                    <td>{{ auction.id }} </td>
+
+                    <td>{{ auction.product_id.title }}</td>
+                    <td>{{ auction.product_id.description }}</td>
+
+                    {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    <td>€{{auction|current_price}}</td>
+                    {% endif %}
+
+                     {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    <td>ends in: {{ auction.time_ending|time_left }} </td>
+                    {% else %}
+                    <td>starts: {{ auction.time_starting|date:'d-m-Y H:i:s' }} </td>
+                    {% endif %}
+
+<!--                    <td>{{ auction.getBidderName }}</td>-->
+                    {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    <td>
+                        <!-- BID NOW BUTTON -->
+                        <button type="button" class="btn btn-outline-primary bid_now_button" onclick="location.href='/bid/{{auction.id}}'">Bid Now</button>
+                    </td>
+                    {% endif %}
+<!--                    <td>{{ auction.startTime }}</td>-->
+                    <td>
+                        <!-- WATCH BUTTON -->
+                        <button type="button" class="btn btn-outline-primary watch_button" onclick="location.href='/watchlist/{{auction.id}}'">
+                        {% if watchlist %}
+                            {% if watchlist|search:auction.id%}
+                            Unwatch
+                            {% else %}
+                            Watch
+                            {% endif %}
+                        {% else %}
+                            Watch
+                        {% endif %}
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+        {% for auction in auctions %}
+        {% if forloop.counter0|divisibleby:'4' %}
+            {% if forloop.counter0 != 0 %}
+            </div>
+            {% endif %}
+        <div class="carousel-inner row w-100 mx-auto">
+            {% if auctions|length == 1 %} <div class="carousel-item col-md-12 active">
+            {% elif auctions|length == 2 %} <div class="carousel-item col-md-6 active">
+            {% elif auctions|length == 3 %} <div class="carousel-item col-md-4 active">
+            {% else %} <div class="carousel-item col-md-3 active">
+            {% endif %}
+        {% else %}
+            {% if auctions|length == 1 %} <div class="carousel-item col-md-12">
+            {% elif auctions|length == 2 %} <div class="carousel-item col-md-6">
+            {% elif auctions|length == 3 %} <div class="carousel-item col-md-4">
+            {% else %} <div class="carousel-item col-md-3">
+            {% endif %}
+        {% endif %}
+            <div class="card">
+                <img class="card-img-top img-fluid" src='/media/{{ auction.product_id.image }}' alt="Card image cap">
+                <div class="card-body">
+                    <div id="item_name">
+                        <h4 class="card-title text-center">{{ auction.product_id.title }}</h4><hr>
+                    </div>
+                    <p class="card-text">{{ auction.product_id.description }}</p>
+                    {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    <h4 class="card-title text-center">€{{auction|current_price}}</h4>
+                    {% endif %}
+                    <p class="card-text"><small class="text-muted"> 
+                    {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    Auction ends in: {{ auction.time_ending|time_left }}
+                    {% else %}
+                    Auction starts: {{ auction.time_starting|date:'d-m-Y H:i:s' }}
+                    {% endif %}
+                    
+                    </small></p>
+                    
+                    {% if todays_date > auction.time_starting|date:'Y-m-d-H-i-s' %}
+                    <div>
+                        <!-- BID NOW BUTTON -->
+                        <button type="button" class="btn btn-primary bid_now_button" onclick="location.href='/bid/{{auction.id}}'">Bid Now</button>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <!-- WATCH BUTTON -->
+                        <button type="button" class="btn btn-outline-primary watch_button" onclick="location.href='/watchlist/{{auction.id}}'">
+                        {% if watchlist %}
+                            {% if watchlist|search:auction.id%}
+                            Unwatch
+                            {% else %}
+                            Watch
+                            {% endif %}
+                        {% else %}
+                            Watch
+                        {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

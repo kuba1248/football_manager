@@ -1,0 +1,131 @@
+Creating the project
+++++++++++++++++++++
+
+Generating the necessary files
+------------------------------
+
+From the command line, cd into a directory where 
+you’d like to store your code, then run the following 
+command : ::
+ >> django-admin startproject auctionsonline
+
+This will create a directory named auctionsonline in your 
+current directory.
+
+If we look at the directory we created::
+
+ mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+
+This files are:
+
+* ``manage.py`` : A command-line utility that lets you interact with this Django project in various ways. We will use this file a lot.
+
+* ``settings.py`` : Settings/configuration for this Django project.
+
+* ``urls.py`` : The URL declarations for this Django project.
+
+* ``__init__.py`` : An empty file that tells Python that this directory should be considered a Python package.
+
+* ``wsgi.py`` : An entry-point for WSGI-compatible web servers to serve your project
+
+Testing the Django Project 
+--------------------------
+
+To verify if the django project works run the following 
+command : ::
+ >> python manage.py runserver
+
+We should see the following output : ::
+
+ Performing system checks...
+
+ System check identified no issues (0 silenced).
+
+ You have unapplied migrations; your app may not work properly until they are applied.
+ Run 'python manage.py migrate' to apply them.
+
+ June 01, 2018 - 15:50:53
+ Django version 2.0, using settings 'auctionsonline.settings'
+ Starting development server at http://127.0.0.1:8000/
+ Quit the server with CONTROL-C.
+
+We've started the django development server, a lightweight web server which is used for
+rapid development. This web server MUSTN'T be used in a production enviroment.
+
+Creating the first app
+----------------------
+
+Projects vs Apps
+================
+
+This is really more of a separate (though related) question, but understanding the 
+distinction Django draws between a “project” and an “application” is a big part of 
+good code layout. Roughly speaking, this is what the two terms mean:
+
+* An application tries to provide a single, relatively self-contained set of related functions. An application is allowed to define a set of models (though it doesn’t have to) and to define and register custom template tags and filters (though, again, it doesn’t have to).
+* A project is a collection of applications, installed into the same database, and all using the same settings file. In a sense, the defining aspect of a project is that it supplies a settings file which specifies the database to use, the applications to install, and other bits of configuration. A project may correspond to a single web site, but doesn’t have to — multiple projects can run on the same site. The project is also responsible for the root URL configuration, though in most cases it’s useful to just have that consist of calls to include which pull in URL configurations from inidividual applications.
+
+Views, custom manipulators, custom context processors and most other things Django lets you create can 
+all be defined either at the level of the project or of the application, and where you do that should 
+depend on what’s most effective for you; in general, though, they’re best placed inside an application 
+(this increases their portability across projects). 
+
+Creating the website app
+========================
+
+To create the app we need to be in the same directory as manage.py. Executing this 
+command : ::
+
+ >> python manage.py startapp website
+
+will create an app called website and the following files will be created. ::
+
+ website/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+
+This files are:
+
+* ``__init__.py`` : 
+
+* ``admin.py`` : Registers models to the admin site.
+
+* ``apps.py`` : This file is created to help the user include any application configuration for the app. Using this, you can configure some of the attributes of the application.
+
+* ``migrations/__init__.py`` : 
+
+* ``models.py`` : Defines a class that represents table or collection in our DB, and where every attribute of the class is a field of the table or collection.
+
+* ``tests.py`` : 
+
+* ``views.py`` : A set of functions that take a web request and return a web response. This response can be the HTML contents of a Web page, or a redirect, or a 404 error, or an XML document, or an image, etc.
+
+The next step is to include the app in our project, we need to add a reference 
+to its configuration class in the INSTALLED_APPS setting. 
+Edit the auctionsonline/settings.py file and add 
+that dotted path to the INSTALLED_APPS setting. It’ll look like this: ::
+
+ INSTALLED_APPS = [
+    'website',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+ ]
+
+Now that Django knows to include the website app we are ready to move forward 
+to the next chapter where we will create the database for the website.

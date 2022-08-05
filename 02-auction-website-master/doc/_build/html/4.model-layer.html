@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Model Layer &mdash; Django Tutorial  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introducing the Django Admin" href="4.1.admin.html" />
+    <link rel="prev" title="Creating the project" href="3.create-project.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Django Tutorial
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="1.introduction.html">Introduction</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="2.installation.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="3.create-project.html">Creating the project</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Model Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-to-models">Introduction to models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#field-types">Field types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indexes">Indexes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-our-own-models">Building our own models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-our-models-to-the-database">Adding our models to the database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shell">Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#retrieving-specific-objects-with-filters">Retrieving specific objects with filters</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="4.1.admin.html">Introducing the Django Admin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="5.view-layer.html">The View Layer</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="6.template-layer.html">The Template Layer</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="7.forms.html">Forms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="8.testing.html">Testing our Website</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Django Tutorial</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>The Model Layer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/4.model-layer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-model-layer">
+<h1>The Model Layer<a class="headerlink" href="#the-model-layer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction-to-models">
+<h2>Introduction to models<a class="headerlink" href="#introduction-to-models" title="Permalink to this headline">¶</a></h2>
+<p>By default, the configuration uses SQLite. If you’re new to databases, or you’re just interested in trying Django, this is the easiest choice. SQLite is included in Python, so you won’t need to install anything else to support your database.</p>
+</div>
+<div class="section" id="field-types">
+<h2>Field types<a class="headerlink" href="#field-types" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">CharField</span></code> : A string field for small strings. Also it requires the maximum length of the string as an argument.</li>
+</ul>
+<blockquote>
+<div><strong>Field.choices</strong> : An iterable (e.g., a list or tuple) consisting itself of iterables of exactly two items (e.g. [(A, B), (A, B) …]) to use as choices for this field.</div></blockquote>
+<p>The first element in each tuple is the actual value to be set on the model, and the second element is the human-readable name. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CATEGORIES</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="p">(</span><span class="s1">&#39;LAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Laptop&#39;</span><span class="p">),</span>
+  <span class="p">(</span><span class="s1">&#39;CON&#39;</span><span class="p">,</span> <span class="s1">&#39;Console&#39;</span><span class="p">),</span>
+  <span class="p">(</span><span class="s1">&#39;GAD&#39;</span><span class="p">,</span> <span class="s1">&#39;Gadget&#39;</span><span class="p">),</span>
+  <span class="p">(</span><span class="s1">&#39;GAM&#39;</span><span class="p">,</span> <span class="s1">&#39;Game&#39;</span><span class="p">),</span>
+  <span class="p">(</span><span class="s1">&#39;TEL&#39;</span><span class="p">,</span> <span class="s1">&#39;TV&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">DateTimeField</span></code> : A date and time, represented in Python.</li>
+<li><code class="docutils literal notranslate"><span class="pre">IntegerField</span></code> : An integer. Values from -2147483648 to 2147483647 are safe in all databases supported by Django.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DecimalField</span></code> : A fixed-precision decimal number, represented in Python by a Decimal instance. Has two required arguments</li>
+</ul>
+<blockquote>
+<div><p><strong>DecimalField.max_digits</strong> : The maximum number of digits allowed in the number. Note that this number must be greater than or equal to decimal_places.</p>
+<p><strong>DecimalField.decimal_places</strong> : The number of decimal places to store with the number.</p>
+</div></blockquote>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">EmailField</span></code> : A CharField that checks that the value is a valid email address. It uses EmailValidator to validate the input.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ImageField</span></code> : Inherits all attributes and methods from FileField, but also validates that the uploaded object is a valid image.</li>
+<li><code class="docutils literal notranslate"><span class="pre">TextField</span></code> : A large text field.</li>
+</ul>
+<p>For more field types check the official documentation <a class="reference external" href="https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.DateField/">here</a>.</p>
+</div>
+<div class="section" id="indexes">
+<h2>Indexes<a class="headerlink" href="#indexes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">PrimaryKey</span></code> : In django an id field is added automatically acting as a primary key. Of course his behavior can be overridden.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ForeignKey</span></code> : To define a many-to-one relationship, use <strong>django.db.models.ForeignKey</strong>. You use it just like any other Field type: by including it as a class attribute of your model.</li>
+</ul>
+</div>
+<div class="section" id="building-our-own-models">
+<h2>Building our own models<a class="headerlink" href="#building-our-own-models" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/database.png" src="_images/database.png" />
+<p>The <code class="docutils literal notranslate"><span class="pre">models.py</span></code> file must look like this :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+
+<span class="c1"># Create your models here.</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+       <span class="n">password</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+       <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+       <span class="n">balance</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+       <span class="n">firstname</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">56</span><span class="p">)</span>
+       <span class="n">lastname</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+       <span class="n">cellphone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+       <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+       <span class="n">town</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+       <span class="n">post_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+       <span class="n">country</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">CATEGORIES</span> <span class="o">=</span> <span class="p">(</span>
+           <span class="p">(</span><span class="s1">&#39;LAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Laptop&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;CON&#39;</span><span class="p">,</span> <span class="s1">&#39;Console&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;GAD&#39;</span><span class="p">,</span> <span class="s1">&#39;Gadget&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;GAM&#39;</span><span class="p">,</span> <span class="s1">&#39;Game&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;TEL&#39;</span><span class="p">,</span> <span class="s1">&#39;TV&#39;</span><span class="p">)</span>
+       <span class="p">)</span>
+
+       <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+       <span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">()</span>
+       <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
+       <span class="n">quantity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+       <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+           <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+           <span class="n">choices</span><span class="o">=</span><span class="n">CATEGORIES</span>
+       <span class="p">)</span>
+       <span class="n">date_posted</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Auction</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">product_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">number_of_bids</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+       <span class="n">time_starting</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+       <span class="n">time_ending</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Watchlist</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">user_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">auction_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Auction</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bid</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">user_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">auction_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Auction</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">bid_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Chat</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+       <span class="n">auction_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Auction</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">user_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+       <span class="n">message</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+       <span class="n">time_sent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-our-models-to-the-database">
+<h2>Adding our models to the database<a class="headerlink" href="#adding-our-models-to-the-database" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve written our models we have to migrate them into our database.
+We can achive this by running the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">makemigrations</span> <span class="n">website</span>
+</pre></div>
+</div>
+<p>You should see something similar to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Migrations</span> <span class="k">for</span> <span class="s1">&#39;website&#39;</span><span class="p">:</span>
+<span class="n">website</span>\<span class="n">migrations</span>\<span class="mi">0001</span><span class="n">_initial</span><span class="o">.</span><span class="n">py</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Auction</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Bid</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Chat</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Product</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">User</span>
+  <span class="o">-</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Watchlist</span>
+  <span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">user_id</span> <span class="n">to</span> <span class="n">chat</span>
+  <span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">user_id</span> <span class="n">to</span> <span class="n">bid</span>
+  <span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">product_id</span> <span class="n">to</span> <span class="n">auction</span>
+</pre></div>
+</div>
+<p>By running makemigrations, you’re telling Django that you’ve made some changes
+to your models (in this case, you’ve made new ones) and that you’d like the
+changes to be stored as a migration. Migrations are how Django stores changes
+to your models (and thus your database schema) - they’re just files on disk.
+You can read the migration for your new model if you like it’s the file
+website/migrations/0001_initial.py.</p>
+<p>There’s a command that will run the migrations for you and manage your database
+schema automatically - that’s called migrate, and we’ll come to it in a moment -
+but first, let’s see what SQL that migration would run. The sqlmigrate command
+takes migration names and returns their SQL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">sqlmigrate</span> <span class="n">website</span> <span class="mi">0001</span>
+</pre></div>
+</div>
+<p>You should see something similar to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BEGIN</span><span class="p">;</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Auction</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;number_o</span>
+<span class="n">f_bids</span><span class="s2">&quot; integer NOT NULL, &quot;</span><span class="n">time_starting</span><span class="s2">&quot; datetime NOT NULL, &quot;</span><span class="n">time_ending</span><span class="s2">&quot; datetime NOT NU</span>
+<span class="n">LL</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Bid</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;bid_time&quot;</span> <span class="n">da</span>
+<span class="n">tetime</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="n">DEFE</span>
+<span class="n">RRABLE</span> <span class="n">INITIALLY</span> <span class="n">DEFERRED</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Chat</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_chat&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span> <span class="n">te</span>
+<span class="n">xt</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;time_sent&quot;</span> <span class="n">datetime</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;w</span>
+<span class="n">ebsite_auction</span><span class="s2">&quot; (&quot;</span><span class="nb">id</span><span class="s2">&quot;) DEFERRABLE INITIALLY DEFERRED);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Product</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_product&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span> <span class="n">v</span>
+<span class="n">archar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+<span class="s2">&quot;quantity&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;date_posted&quot;</span> <span class="n">datetime</span> <span class="n">NOT</span> <span class="n">NU</span>
+<span class="n">LL</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">User</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_user&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span> <span class="n">v</span>
+<span class="n">archar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">254</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;bala</span>
+<span class="n">nce</span><span class="s2">&quot; decimal NOT NULL, &quot;</span><span class="n">firstname</span><span class="s2">&quot; varchar(56) NOT NULL, &quot;</span><span class="n">lastname</span><span class="s2">&quot; varchar(45) NOT NULL,</span>
+<span class="s2">&quot;cellphone&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;town&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="n">NOT</span>
+<span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;post_code&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Create</span> <span class="n">model</span> <span class="n">Watchlist</span>
+<span class="o">--</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_watchlist&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;auctio</span>
+<span class="n">n_id_id</span><span class="s2">&quot; integer NOT NULL REFERENCES &quot;</span><span class="n">website_auction</span><span class="s2">&quot; (&quot;</span><span class="nb">id</span><span class="s2">&quot;) DEFERRABLE INITIALLY DEFERRE</span>
+<span class="n">D</span><span class="p">,</span> <span class="s2">&quot;user_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;website_user&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="n">DEFERRABLE</span> <span class="n">INITIALLY</span> <span class="n">DEF</span>
+<span class="n">ERRED</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">user_id</span> <span class="n">to</span> <span class="n">chat</span>
+<span class="o">--</span>
+<span class="n">ALTER</span> <span class="n">TABLE</span> <span class="s2">&quot;website_chat&quot;</span> <span class="n">RENAME</span> <span class="n">TO</span> <span class="s2">&quot;website_chat__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_chat&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span> <span class="n">te</span>
+<span class="n">xt</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;time_sent&quot;</span> <span class="n">datetime</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;w</span>
+<span class="n">ebsite_auction</span><span class="s2">&quot; (&quot;</span><span class="nb">id</span><span class="s2">&quot;) DEFERRABLE INITIALLY DEFERRED, &quot;</span><span class="n">user_id_id</span><span class="s2">&quot; integer NOT NULL REFERE</span>
+<span class="n">NCES</span> <span class="s2">&quot;website_user&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="n">DEFERRABLE</span> <span class="n">INITIALLY</span> <span class="n">DEFERRED</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="s2">&quot;website_chat&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;time_sent&quot;</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span><span class="p">,</span> <span class="s2">&quot;user_id_id&quot;</span><span class="p">)</span> <span class="n">S</span>
+<span class="n">ELECT</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;time_sent&quot;</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span><span class="p">,</span> <span class="n">NULL</span> <span class="n">FROM</span> <span class="s2">&quot;website_chat__old&quot;</span><span class="p">;</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="s2">&quot;website_chat__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_bid_auction_id_id_8a24134d&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;auction_id_id&quot;</span><span class="p">);</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_watchlist_auction_id_id_1ce8deb1&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_watchlist&quot;</span> <span class="p">(</span><span class="s2">&quot;auction_i</span>
+<span class="n">d_id</span><span class="s2">&quot;);</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_watchlist_user_id_id_517566fa&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_watchlist&quot;</span> <span class="p">(</span><span class="s2">&quot;user_id_id&quot;</span><span class="p">)</span>
+<span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_chat_auction_id_id_17d789bb&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_chat&quot;</span> <span class="p">(</span><span class="s2">&quot;auction_id_id&quot;</span><span class="p">);</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_chat_user_id_id_66161742&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_chat&quot;</span> <span class="p">(</span><span class="s2">&quot;user_id_id&quot;</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">user_id</span> <span class="n">to</span> <span class="n">bid</span>
+<span class="o">--</span>
+<span class="n">ALTER</span> <span class="n">TABLE</span> <span class="s2">&quot;website_bid&quot;</span> <span class="n">RENAME</span> <span class="n">TO</span> <span class="s2">&quot;website_bid__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;bid_time&quot;</span> <span class="n">da</span>
+<span class="n">tetime</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="n">DEFE</span>
+<span class="n">RRABLE</span> <span class="n">INITIALLY</span> <span class="n">DEFERRED</span><span class="p">,</span> <span class="s2">&quot;user_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;website_user&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+<span class="n">DEFERRABLE</span> <span class="n">INITIALLY</span> <span class="n">DEFERRED</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_time&quot;</span><span class="p">,</span> <span class="s2">&quot;auction_id_id&quot;</span><span class="p">,</span> <span class="s2">&quot;user_id_id&quot;</span><span class="p">)</span> <span class="n">SELECT</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;</span>
+<span class="n">bid_time</span><span class="s2">&quot;, &quot;</span><span class="n">auction_id_id</span><span class="s2">&quot;, NULL FROM &quot;</span><span class="n">website_bid__old</span><span class="s2">&quot;;</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="s2">&quot;website_bid__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_bid_auction_id_id_8a24134d&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;auction_id_id&quot;</span><span class="p">);</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_bid_user_id_id_7cc0c150&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_bid&quot;</span> <span class="p">(</span><span class="s2">&quot;user_id_id&quot;</span><span class="p">);</span>
+<span class="o">--</span>
+<span class="o">--</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">product_id</span> <span class="n">to</span> <span class="n">auction</span>
+<span class="o">--</span>
+<span class="n">ALTER</span> <span class="n">TABLE</span> <span class="s2">&quot;website_auction&quot;</span> <span class="n">RENAME</span> <span class="n">TO</span> <span class="s2">&quot;website_auction__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="s2">&quot;number_o</span>
+<span class="n">f_bids</span><span class="s2">&quot; integer NOT NULL, &quot;</span><span class="n">time_starting</span><span class="s2">&quot; datetime NOT NULL, &quot;</span><span class="n">time_ending</span><span class="s2">&quot; datetime NOT NU</span>
+<span class="n">LL</span><span class="p">,</span> <span class="s2">&quot;product_id_id&quot;</span> <span class="n">integer</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">REFERENCES</span> <span class="s2">&quot;website_product&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="n">DEFERRABLE</span> <span class="n">INITIA</span>
+<span class="n">LLY</span> <span class="n">DEFERRED</span><span class="p">);</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;number_of_bids&quot;</span><span class="p">,</span> <span class="s2">&quot;time_starting&quot;</span><span class="p">,</span> <span class="s2">&quot;time_ending&quot;</span><span class="p">,</span> <span class="s2">&quot;pr</span>
+<span class="n">oduct_id_id</span><span class="s2">&quot;) SELECT &quot;</span><span class="nb">id</span><span class="s2">&quot;, &quot;</span><span class="n">number_of_bids</span><span class="s2">&quot;, &quot;</span><span class="n">time_starting</span><span class="s2">&quot;, &quot;</span><span class="n">time_ending</span><span class="s2">&quot;, NULL FROM &quot;</span><span class="n">we</span>
+<span class="n">bsite_auction__old</span><span class="s2">&quot;;</span>
+<span class="n">DROP</span> <span class="n">TABLE</span> <span class="s2">&quot;website_auction__old&quot;</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">INDEX</span> <span class="s2">&quot;website_auction_product_id_id_b4d0e759&quot;</span> <span class="n">ON</span> <span class="s2">&quot;website_auction&quot;</span> <span class="p">(</span><span class="s2">&quot;product_id_id</span>
+<span class="s2">&quot;);</span>
+<span class="n">COMMIT</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Now, run migrate again to create those model tables in your database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+<p>we should see the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Operations</span> <span class="n">to</span> <span class="n">perform</span><span class="p">:</span>
+       <span class="n">Apply</span> <span class="nb">all</span> <span class="n">migrations</span><span class="p">:</span> <span class="n">admin</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">contenttypes</span><span class="p">,</span> <span class="n">sessions</span><span class="p">,</span> <span class="n">website</span>
+<span class="n">Running</span> <span class="n">migrations</span><span class="p">:</span>
+       <span class="n">Applying</span> <span class="n">contenttypes</span><span class="o">.</span><span class="mi">0001</span><span class="n">_initial</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0001</span><span class="n">_initial</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">admin</span><span class="o">.</span><span class="mi">0001</span><span class="n">_initial</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">admin</span><span class="o">.</span><span class="mi">0002</span><span class="n">_logentry_remove_auto_add</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">contenttypes</span><span class="o">.</span><span class="mi">0002</span><span class="n">_remove_content_type_name</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0002</span><span class="n">_alter_permission_name_max_length</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0003</span><span class="n">_alter_user_email_max_length</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0004</span><span class="n">_alter_user_username_opts</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0005</span><span class="n">_alter_user_last_login_null</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0006</span><span class="n">_require_contenttypes_0002</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0007</span><span class="n">_alter_validators_add_error_messages</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0008</span><span class="n">_alter_user_username_max_length</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">auth</span><span class="o">.</span><span class="mi">0009</span><span class="n">_alter_user_last_name_max_length</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">sessions</span><span class="o">.</span><span class="mi">0001</span><span class="n">_initial</span><span class="o">...</span> <span class="n">OK</span>
+       <span class="n">Applying</span> <span class="n">website</span><span class="o">.</span><span class="mi">0001</span><span class="n">_initial</span><span class="o">...</span> <span class="n">OK</span>
+</pre></div>
+</div>
+<p>The migrate command takes all the migrations that haven’t been applied
+(Django tracks which ones are applied using a special table in your database
+called django_migrations) and runs them against your database - essentially,
+synchronizing the changes you made to your models with the schema in the database.</p>
+</div>
+<div class="section" id="shell">
+<h2>Shell<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h2>
+<p>Now, we can use an interactive Python shell that API Django gives you.
+To invoke the Python shell, use this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt; $ python manage.py shell
+</pre></div>
+</div>
+<p>We should see the following text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.6</span><span class="o">.</span><span class="mi">4</span> <span class="p">(</span><span class="n">v3</span><span class="o">.</span><span class="mf">6.4</span><span class="p">:</span><span class="n">d48eceb</span><span class="p">,</span> <span class="n">Dec</span> <span class="mi">19</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">06</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">45</span><span class="p">)</span> <span class="p">[</span><span class="n">MSC</span> <span class="n">v</span><span class="o">.</span><span class="mi">1900</span> <span class="mi">32</span> <span class="n">bit</span> <span class="p">(</span><span class="n">Intel</span><span class="p">)]</span> <span class="n">on</span> <span class="n">win32</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="p">(</span><span class="n">InteractiveConsole</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Using the shell we will create a new user for our website. Running the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">website.models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Creates an User object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span> <span class="o">=</span> <span class="n">User</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;dummy1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;dummy1@mail.com&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;dummypassword&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="mf">20.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">firstname</span> <span class="o">=</span> <span class="s2">&quot;Dummy&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">lastname</span> <span class="o">=</span> <span class="s2">&quot;One&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">cellphone</span> <span class="o">=</span> <span class="s2">&quot;6988757575&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="s2">&quot;Dumadd 199&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">town</span> <span class="o">=</span> <span class="s2">&quot;Dummtown&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">post_code</span> <span class="o">=</span> <span class="s2">&quot;35100&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="s2">&quot;Dummcon&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Saves User object to the database.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If we want to check if the user was successfully registered we execute this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">&lt;QuerySet [&lt;User: User object (1)&gt;]&gt;</span>
+</pre></div>
+</div>
+<p>The result we get is quite unclear. Lets fix it by opening the models.py file and adding a <strong>__str__()</strong> method to User class</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="o">...</span>
+
+   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="k">return</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+</pre></div>
+</div>
+<p>Now lets execute again the previous command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">&lt;QuerySet [&lt;User: (dummy1, dummy1@mail.com)&gt;]&gt;</span>
+</pre></div>
+</div>
+<p>The <strong>User.objects.all()</strong> is displaying all the User records in
+the database showing the username and the email of each user.</p>
+</div>
+<div class="section" id="retrieving-specific-objects-with-filters">
+<h2>Retrieving specific objects with filters<a class="headerlink" href="#retrieving-specific-objects-with-filters" title="Permalink to this headline">¶</a></h2>
+<p>The QuerySet returned by <em>all()</em> describes all objects in the database table.
+Usually, though, you’ll need to select only a subset of the complete set of objects.
+To create such a subset, you refine the initial QuerySet, adding filter conditions.</p>
+<p>One way to do this is with the:</p>
+<ul>
+<li><p class="first"><strong>filter(**kwargs)</strong></p>
+<blockquote>
+<div><p>Returns a new QuerySet containing objects that match the given lookup parameters.</p>
+</div></blockquote>
+</li>
+</ul>
+<p>for example if we want to find the user with <a class="reference external" href="mailto:'dummy1&#37;&#52;&#48;mail&#46;com">‘dummy1<span>&#64;</span>mail<span>&#46;</span>com</a>’ we will use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;dummy1@mail.com&#39;</span><span class="p">)</span>
+<span class="go">&lt;QuerySet [&lt;User: ID:1 dummy1 dummy1@mail.com&gt;]&gt;</span>
+</pre></div>
+</div>
+<p>One more thing we will need from the QuerySet API are the field lookups.
+Field lookups are how you specify the meat of an SQL WHERE clause.
+They’re specified as keyword arguments to the QuerySet methods</p>
+<p>for example if we want to find users with id greater than 5 we will use the
+<em>gt</em> field lookup :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;User.objects.filter(id__gt=5)</span>
+<span class="go">&lt;QuerySet []&gt;</span>
+</pre></div>
+</div>
+<p>Some usefull field lookups are:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">gt</span></code> : Greater than.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lt</span></code> : Less than</li>
+<li><code class="docutils literal notranslate"><span class="pre">gte</span></code> : Greater than or equal to.</li>
+<li><code class="docutils literal notranslate"><span class="pre">lte</span></code> : Less than or equal to.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="4.1.admin.html" class="btn btn-neutral float-right" title="Introducing the Django Admin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="3.create-project.html" class="btn btn-neutral" title="Creating the project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kosmas Sidiropoulos, George Raftopoulos.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

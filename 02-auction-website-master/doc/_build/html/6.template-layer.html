@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Template Layer &mdash; Django Tutorial  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Forms" href="7.forms.html" />
+    <link rel="prev" title="The View Layer" href="5.view-layer.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Django Tutorial
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="1.introduction.html">Introduction</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="2.installation.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="3.create-project.html">Creating the project</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="4.model-layer.html">The Model Layer</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="4.1.admin.html">Introducing the Django Admin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="5.view-layer.html">The View Layer</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Template Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tags">Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-files">Static files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tag-filters">Tag Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-custom-filters">Creating custom filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-the-project-s-templates">Creating the project’s templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-index-template">The Index Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-product-template">The Product Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-bid-template">The Bid Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-resister-template">The Resister Template</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="7.forms.html">Forms</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="8.testing.html">Testing our Website</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Django Tutorial</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>The Template Layer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/6.template-layer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-template-layer">
+<h1>The Template Layer<a class="headerlink" href="#the-template-layer" title="Permalink to this headline">¶</a></h1>
+<p>“The template layer provides a designer-friendly syntax
+for rendering the information to be presented to the user.”</p>
+<p>Django has a built in function to search by default for html files and templates
+in a directory named “templates”, so we create one in the app directory, and we store all
+the html files for the project</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">website</span><span class="o">/</span>
+   <span class="n">templates</span><span class="o">/</span>
+       <span class="n">balance</span><span class="o">.</span><span class="n">html</span>
+       <span class="n">bid</span><span class="o">.</span><span class="n">html</span>
+       <span class="n">home</span><span class="o">.</span><span class="n">html</span>
+       <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+       <span class="n">products</span><span class="o">.</span><span class="n">html</span>
+       <span class="n">register</span><span class="o">.</span><span class="n">html</span>
+   <span class="n">admin</span><span class="o">.</span><span class="n">py</span>
+   <span class="n">apps</span><span class="o">.</span><span class="n">py</span>
+   <span class="n">models</span><span class="o">.</span><span class="n">py</span>
+   <span class="n">tests</span><span class="o">.</span><span class="n">py</span>
+   <span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+   <span class="n">views</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Whenever we want to inject ,in a specific location, a specific file or function,
+action or url, we can use specific django formats :</p>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<p>A variable outputs a value from the context, which is a dict-like object mapping keys to values.</p>
+<p>Variables are surrounded by <code class="docutils literal notranslate"><span class="pre">{{</span></code> and <code class="docutils literal notranslate"><span class="pre">}}</span></code> like this:</p>
+<p>My name is <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">user.name</span> <span class="pre">}}</span></code></p>
+</div>
+<div class="section" id="tags">
+<h2>Tags<a class="headerlink" href="#tags" title="Permalink to this headline">¶</a></h2>
+<p>Tags provide arbitrary logic in the rendering process.</p>
+<p>This definition is deliberately vague. For example, a tag can output content, serve as a control structure e.g. an “if” statement or a “for” loop, grab content from a database, or even enable access to other template tags.</p>
+<p>Tags are surrounded by <code class="docutils literal notranslate"><span class="pre">{%</span></code> and <code class="docutils literal notranslate"><span class="pre">%}</span></code> like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">&quot;base_template.html&quot;</span> <span class="pre">%}</span></code> : indicates that the specific template/part of code extends another template/part of code.</p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">include</span> <span class="pre">&quot;some_template.html&quot;</span> <span class="pre">%}</span></code> : indicates that in the specific part of the code, another template/code will be included.</p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">label</span> <span class="pre">%}</span></code> block <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">endblock</span> <span class="pre">%}</span></code> : we use this format to enclose parts of the code we want to be replaced or included, when a specific request/event is triggered.</p>
+<p><strong>if/else if/else statements</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">'statement'</span> <span class="pre">%}</span></code></p>
+<blockquote>
+<div>…code…</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">elif</span> <span class="pre">%}</span></code></p>
+<blockquote>
+<div>…code…</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">else</span> <span class="pre">%}</span></code></p>
+<blockquote>
+<div>…code…</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">endif</span> <span class="pre">%}</span></code></p>
+<p><strong>For loops</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">for</span> <span class="pre">...</span> <span class="pre">%}</span></code></p>
+<blockquote>
+<div>…code…</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">endfor</span> <span class="pre">%}</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'website:index'</span> <span class="pre">%}</span></code> : page redirect (views name)</p>
+<p><code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">now</span> <span class="pre">&quot;Y-m-d-H-i-s&quot;</span> <span class="pre">as</span> <span class="pre">todays_date</span> <span class="pre">%}</span></code> : declares a new variable that holds the current date/time.</p>
+</div>
+<div class="section" id="static-files">
+<h2>Static files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h2>
+<p>Websites generally need to serve additional files such as images,
+JavaScript, or CSS. In Django, we refer to these files as “static files”.</p>
+<p>Create a new directory called ‘static’ in the app directory</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">website</span><span class="o">/</span>
+   <span class="n">migrations</span><span class="o">/</span>
+   <span class="n">templates</span><span class="o">/</span>
+   <span class="n">static</span><span class="o">/</span>
+       <span class="n">css</span><span class="o">/</span> <span class="o">&lt;-</span> <span class="n">Here</span> <span class="n">we</span> <span class="n">save</span> <span class="n">the</span> <span class="n">css</span> <span class="n">files</span>
+       <span class="n">images</span><span class="o">/</span> <span class="o">&lt;-</span> <span class="n">here</span> <span class="n">the</span> <span class="n">images</span>
+</pre></div>
+</div>
+<p>Now that we added the static files we also have to make a directory for the
+file the admin uploads (for creating auctions, the item picture).</p>
+<p>Open the settings.py and add the following lines to the end.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s1">&#39;/media/&#39;</span>
+<span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;media&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>also open the urls.py and edit the code so it will look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+   <span class="n">path</span><span class="p">(</span><span class="s1">&#39;website/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;website.urls&#39;</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">+</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tag-filters">
+<h2>Tag Filters<a class="headerlink" href="#tag-filters" title="Permalink to this headline">¶</a></h2>
+<p>Filters the contents of the block through one or more filters.
+Multiple filters can be specified with pipes and filters can have arguments,
+just as in variable syntax.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{% if messages|length &gt;= 100 %}
+  You have lots of messages today!
+{% endif %}
+</pre></div>
+</div>
+<p>the length filter returns the length of the value. This works for both strings and lists.
+There are many filters in the Django documentation, however there are occasions where
+we have to calculate something more complex than the given filters. Django gives us
+the ability to create custom filters.</p>
+</div>
+<div class="section" id="creating-custom-filters">
+<h2>Creating custom filters<a class="headerlink" href="#creating-custom-filters" title="Permalink to this headline">¶</a></h2>
+<p>To create custom filters we have to create a directory called ‘templatetags’ in
+the our app and inside it we will create two files.</p>
+<ul class="simple">
+<li>__init__.py</li>
+<li>custom_tags.py : Here we will define filters we will use on our templates</li>
+</ul>
+<p>The custom_tags.py will look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">template</span>
+<span class="kn">from</span> <span class="nn">..models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
+
+<span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;search&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;time_left&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">time_left</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">days</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">seconds</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="n">days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">+</span> <span class="n">seconds</span> <span class="o">//</span> <span class="mi">3600</span>
+    <span class="n">minutes</span> <span class="o">=</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">%</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">//</span> <span class="mi">60</span>
+    <span class="n">seconds</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">%</span> <span class="mi">60</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">minutes</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;m &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span>
+    <span class="k">return</span> <span class="n">st</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;current_price&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">current_price</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">current_cost</span> <span class="o">=</span> <span class="mf">0.20</span> <span class="o">+</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">number_of_bids</span> <span class="o">*</span> <span class="mf">0.20</span><span class="p">)</span>
+    <span class="n">current_cost</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%0.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">current_cost</span>
+    <span class="k">return</span> <span class="n">current_cost</span>
+</pre></div>
+</div>
+<p>We just created three new filters</p>
+<ul>
+<li><p class="first">search : searches a list for a key</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">watchlist</span><span class="o">|</span><span class="n">search</span><span class="p">:</span><span class="n">auction</span><span class="o">.</span><span class="n">id</span><span class="o">%</span><span class="p">}</span> <span class="n">watchlist</span> <span class="n">contains</span> <span class="n">auction_id</span> <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">time_left : string representation of the auction’s time left</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{{</span> <span class="n">auction</span><span class="o">.</span><span class="n">time_ending</span><span class="o">|</span><span class="n">time_left</span> <span class="p">}}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">current_price : the current price of the auction item based on the number of bids</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>€{{ auction|current_price }}
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="creating-the-project-s-templates">
+<h2>Creating the project’s templates<a class="headerlink" href="#creating-the-project-s-templates" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-index-template">
+<h3>The Index Template<a class="headerlink" href="#the-index-template" title="Permalink to this headline">¶</a></h3>
+<p>For our project, the primary template is “index.html”, which contains all the
+necessary code for our site’s appearance. The index page contains a navbar with its components,
+a dummy ad, a footer, a login modal and finally the “replacement-container” which
+is altered depending the content we want to show.</p>
+<p>The replacement-container :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;p-2&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;replacement&quot;</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%</span> <span class="n">block</span> <span class="n">body</span> <span class="o">%</span><span class="p">}</span>
+        <span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="s2">&quot;products.html&quot;</span> <span class="o">%</span><span class="p">}</span>
+        <span class="p">{</span><span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Whenever we are requesting the index page by default the replacement container
+loads the contents of the products.html</p>
+<p>If the user is currently logged in</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- If the user is logged in then include the home.html contents in the navbar --&gt;
+{% if request.session.username %}
+    {% include &quot;home.html&quot; %}
+&lt;!-- else add login and register links --&gt;
+{% else %}
+    &lt;li class=&quot;nav-item open-modal&quot;&gt;
+        &lt;a id=&quot;login&quot; href=&quot;#myModal&quot; class=&quot;nav-link trigger-btn&quot; data-toggle=&quot;modal&quot;&gt;Login&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;nav-item&quot;&gt;
+        &lt;a id=&quot;signup&quot; class=&quot;nav-link&quot; href=&quot;/website/register/&quot;&gt;Sign up&lt;/a&gt;
+    &lt;/li&gt;
+{% endif %}
+</pre></div>
+</div>
+<p>After the footer we have a modal with a login form. We will talk on how to
+handle forms in the next section.</p>
+</div>
+<div class="section" id="the-product-template">
+<h3>The Product Template<a class="headerlink" href="#the-product-template" title="Permalink to this headline">¶</a></h3>
+<p>The products template contains the auctions that are still in process and all
+the other auctions that will start in the future.</p>
+<p>In this template we are going to need the custom tags we made</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">load</span> <span class="n">custom_tags</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>So the product template will display all the auctions by running a loop on
+the auction QuerySet. Each auction will be displayed as a card and depending
+the starting_time and ending time the auction will be active (we will be able to bid)
+or inactive (just showing the starting_time). Also one more QuerySet is given as
+a parameter the watchlist QuerySet. On every action loop we are going to check
+if the auction_id exists also in the watchlist QuerySet. We are achiving this
+with the custom tag we created ‘search’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- If there is a watchlist parameter ... --&gt;
+{% if watchlist %}
+    &lt;!-- If the auction id is also in the watchlist QuerySet ... --&gt;
+    {% if watchlist|search:auction.id%}
+        Unwatch
+    {% else %}
+        Watch
+    {% endif %}
+{% else %}
+    Watch
+{% endif %}
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-bid-template">
+<h3>The Bid Template<a class="headerlink" href="#the-bid-template" title="Permalink to this headline">¶</a></h3>
+<p>The bid.html contains the page that allows users to bid on auctions. It also
+has a static chat for the users to communicate with each other.</p>
+<p>The user will be able to add or remove the auction to the watchlist.</p>
+<p>In this template we have four parameters from the view model the auction and
+user information one special list that contains data we created inside
+the bid_page view and the user’s watchlist.</p>
+<p>The static chat is a form that makes a POST request. We will talk on how to
+handle forms in the next section.</p>
+</div>
+<div class="section" id="the-resister-template">
+<h3>The Resister Template<a class="headerlink" href="#the-resister-template" title="Permalink to this headline">¶</a></h3>
+<p>The register template contains a form that makes a POST request. We will talk on how to
+handle forms in the next section.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="7.forms.html" class="btn btn-neutral float-right" title="Forms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="5.view-layer.html" class="btn btn-neutral" title="The View Layer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kosmas Sidiropoulos, George Raftopoulos.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
